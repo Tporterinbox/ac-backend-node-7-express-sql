@@ -185,7 +185,7 @@ app.post("/delete-one-animal/:id", async (req, res)=>{
   await  deleteOneAnimal(name, category, can_fly, lives_in);
  
  //  can use a template literal or string in the message below
-  res.send(`Success! ${req.body.name} was updated yay!`)
+  res.send(`Success! ${req.body.name} was deleted yay!`)
   })
 
 
