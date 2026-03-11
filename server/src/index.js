@@ -87,13 +87,37 @@ async function getNewestAnimal() {
 
 // 6. 🌟 BONUS CHALLENGE — getAnimalsByCategory(category)
 
-// 7. deleteOneAnimal(id)
+// 7. ---> deleteOneAnimal(id)
+// Tiger id = 87
+async function deleteOneAnimal(id) {
+  // db query() takes in two parameters:
+ //  takes in two parameters. first is a string that holds sql command, 
+ // second is an array that holds the values for the placeholders starting at $1, then $2, etc....
+ const result = await db.query("DELETE FROM animals WHERE id = $1") ;
+ console.log (result.rows[0])
+ return result.rows[0]
+}
 
 // 8. addOneAnimal(name, category, can_fly, lives_in)
-
+async function addOneAnimal(name, category, can_fly, lives_in) {
+  await db.query(
+    "INSERT INTO animals (name, category, can_fly, lives_in) VALUES ($1, $2, $3, $4)",
+    [name, category, can_fly, lives_in],
+  );
+}
 // 9. updateOneAnimalName(id, newName)
+async function updateOneAnimalName(id, newName) {
+  await db.query(
+    "UPDATE animals SET name = $1 WHERE id = $2", [newName, id]
+  )
+}
 
-// 10. updateOneAnimalCategory(id, newCategory)
+// 10. ---> updateOneAnimalCategory(id, newCategory)
+async function updateOneAnimalCategory(id, newCategory) {
+  await db.query(
+    "UPDATE animals SET category = $1 WHERE id = $2", [newCategory, id]
+  )
+}
 
 // 11. 🌟 BONUS CHALLENGE — addManyAnimals(animals)
 
@@ -153,12 +177,42 @@ app.get("/get-newest-animal", async (req, res) => {
 
 // 6. 🌟 BONUS CHALLENGE — GET /get-animals-by-category/:category
 
-// 7. POST /delete-one-animal/:id
+// 7. --> POST /delete-one-animal/:id
+app.post("/delete-one-animal/:id", async (req, res)=>{
+  const  { name, category, can_fly, lives_in }= req.body
+ 
+ //  it will await until this function has run 
+  await  deleteOneAnimal(name, category, can_fly, lives_in);
+ 
+ //  can use a template literal or string in the message below
+  res.send(`Success! ${req.body.name} was updated yay!`)
+  })
+
 
 // 8. POST /add-one-animal
+ app.post("/add-one-animal", async (req, res)=>{
+ const  { name, category, can_fly, lives_in }= req.body
+
+//  it will await until this function has run 
+ await  addOneAnimal(name, category, can_fly, lives_in);
+
+//  can use a template literal or string in the message below
+ res.send(`Success! ${req.body.name} was added! yay!`)
+ })
 
 // 9. POST /update-one-animal-name
+app.post("/update-one-animal-name", async (req, res) => {
+  const { id, newName } = req.body;
+  await updateOneAnimalName(id, newName);
+  res.send("Success, the animal's name was changed!");
+})
+ 
 
 // 10. POST /update-one-animal-category
+app.post("/update-one-animal-category", async (req, res) => {
+  const {id, newCategory } = req.body;
+  await updateOneAnimalName(id, newCategory);
+  res.send("Success, the animal category was updated!");
+})
 
 // 11. 🌟 BONUS CHALLENGE — POST /add-many-animals
