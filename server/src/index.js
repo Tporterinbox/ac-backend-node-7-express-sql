@@ -93,7 +93,7 @@ async function deleteOneAnimal(id) {
   // db query() takes in two parameters:
  //  takes in two parameters. first is a string that holds sql command, 
  // second is an array that holds the values for the placeholders starting at $1, then $2, etc....
- const result = await db.query("DELETE FROM animals WHERE id = $1") ;
+ const result = await db.query("DELETE FROM animals WHERE id = $1",[id]);
  console.log (result.rows[0])
  return result.rows[0]
 }
