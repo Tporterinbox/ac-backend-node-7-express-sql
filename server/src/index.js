@@ -88,14 +88,10 @@ async function getNewestAnimal() {
 // 6. 🌟 BONUS CHALLENGE — getAnimalsByCategory(category)
 
 // 7. ---> deleteOneAnimal(id)
-// Tiger id = 87
 async function deleteOneAnimal(id) {
-  // db query() takes in two parameters:
- //  takes in two parameters. first is a string that holds sql command, 
- // second is an array that holds the values for the placeholders starting at $1, then $2, etc....
- const result = await db.query("DELETE FROM animals WHERE id = $1",[id]);
- console.log (result.rows[0])
- return result.rows[0]
+//  console.log (result.rows[0])
+//  return result.rows[0]
+await db.query("DELETE FROM animals WHERE id = $1", [id]);
 }
 
 // 8. addOneAnimal(name, category, can_fly, lives_in)
@@ -179,13 +175,15 @@ app.get("/get-newest-animal", async (req, res) => {
 
 // 7. --> POST /delete-one-animal/:id
 app.post("/delete-one-animal/:id", async (req, res)=>{
-  const  { name, category, can_fly, lives_in }= req.body
+  // const  { name, category, can_fly, lives_in }= req.body
  
+   let id =req.params.id;
+
  //  it will await until this function has run 
-  await  deleteOneAnimal(name, category, can_fly, lives_in);
+  await  deleteOneAnimal(id);
  
- //  can use a template literal or string in the message below
-  res.send(`Success! ${req.body.name} was deleted yay!`)
+ //  can us"e a template literal or string in the message below
+  res.send("Animal has been deleted ")
   })
 
 
