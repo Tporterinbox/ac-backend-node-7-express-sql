@@ -163,7 +163,7 @@ app.get("/get-newest-animal", async (req, res) => {
     const name = req.params.name;
 
     // call the helper function
-    const animal = await getOneAnimalByName(name);
+    const animal = await getNewestAnimal(name);
 
     // send the animal name as JSON in the response
     res.json(animal);
@@ -209,7 +209,7 @@ app.post("/update-one-animal-name", async (req, res) => {
 // 10. POST /update-one-animal-category
 app.post("/update-one-animal-category", async (req, res) => {
   const {id, newCategory } = req.body;
-  await updateOneAnimalName(id, newCategory);
+  await updateOneAnimalCategory(id, newCategory);
   res.send("Success, the animal category was updated!");
 })
 
